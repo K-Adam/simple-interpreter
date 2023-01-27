@@ -27,12 +27,12 @@ pub fn function_input(
         Ok(_) => match input.trim().parse::<i32>() {
             Ok(num) => Ok(num),
             Err(err) => Err(RuntimeError {
-                message: format!("Error when parsing: {}, {:?}", input, err),
+                message: format!("Error when parsing: {input}, {err:?}"),
                 span: span.clone(),
             }),
         },
         Err(err) => Err(RuntimeError {
-            message: format!("Error when reading from console: {:?}", err),
+            message: format!("Error when reading from console: {err:?}"),
             span: span.clone(),
         }),
     }
@@ -55,8 +55,8 @@ pub fn function_print(
             let expression = function_call.arguments.get(0).unwrap();
             let value = evaluator.evaluate_expression(state, expression)?;
             match expression.node {
-                Expression::Identifier(ref name) => println!("{} = {:?}", name, value),
-                _ => println!("Result = {:?}", value),
+                Expression::Identifier(ref name) => println!("{name} = {value:?}"),
+                _ => println!("Result = {value:?}"),
             };
             Ok(0)
         }

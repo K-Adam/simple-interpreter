@@ -90,10 +90,7 @@ impl<T: Tokenizer> Parser<T> {
             Token::While => self.parse_loop(),
             Token::Identifier(_) => self.parse_reassignment_or_call(),
             other => Err(ParserError {
-                message: format!(
-                    "Unexpected token {:?}, expected: Var, While, Identifier",
-                    other
-                ),
+                message: format!("Unexpected token {other:?}, expected: Var, While, Identifier"),
                 span: self.tokenizer.peek()?.span,
             }),
         }
@@ -109,7 +106,7 @@ impl<T: Tokenizer> Parser<T> {
             } => name,
             TokenNode { token, span } => {
                 return Err(ParserError {
-                    message: format!("Unexpected token {:?}, expected: Identifier", token),
+                    message: format!("Unexpected token {token:?}, expected: Identifier"),
                     span,
                 })
             }
@@ -162,7 +159,7 @@ impl<T: Tokenizer> Parser<T> {
             } => (name, span),
             TokenNode { token, span } => {
                 return Err(ParserError {
-                    message: format!("Unexpected token {:?}, expected: Identifier", token),
+                    message: format!("Unexpected token {token:?}, expected: Identifier"),
                     span,
                 })
             }
@@ -280,8 +277,7 @@ impl<T: Tokenizer> Parser<T> {
             }
             TokenNode { token, span } => Err(ParserError {
                 message: format!(
-                    "Unexpected token {:?}, expected number, opening parenthesis, identifier",
-                    token
+                    "Unexpected token {token:?}, expected number, opening parenthesis, identifier"
                 ),
                 span,
             }),

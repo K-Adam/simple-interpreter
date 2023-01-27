@@ -18,7 +18,7 @@ fn main() {
 
     let content = match fs::read_to_string(path) {
         Ok(str) => str,
-        Err(err) => return println!("Error reading file: {}", err),
+        Err(err) => return println!("Error reading file: {err}"),
     };
 
     let tokenizer = SimpleTokenizer::new(&content);

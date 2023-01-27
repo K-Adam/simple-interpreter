@@ -119,7 +119,7 @@ impl SimpleTokenizer<'_> {
                 })
                 .collect::<Vec<&str>>()
                 .join("|");
-            let string_rules_re = format!("^({})$", string_rules);
+            let string_rules_re = format!("^({string_rules})$");
 
             Regex::new(string_rules_re.as_str()).unwrap()
         };

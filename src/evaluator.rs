@@ -51,7 +51,7 @@ impl Evaluator {
                 // use of unstable library feature 'map_try_insert'
                 if state.variables.contains_key(name) {
                     return Err(RuntimeError {
-                        message: format!("Variable {} is already defined", name),
+                        message: format!("Variable {name} is already defined"),
                         span: span.clone(),
                     });
                 };
@@ -61,7 +61,7 @@ impl Evaluator {
             Line::Reassignment(name, expression) => {
                 let value = self.evaluate_expression(state, expression)?;
                 let var_ref = state.variables.get_mut(name).ok_or(RuntimeError {
-                    message: format!("Variable {} is not defined", name),
+                    message: format!("Variable {name} is not defined"),
                     span: span.clone(),
                 })?;
                 *var_ref = value;
@@ -119,7 +119,7 @@ impl Evaluator {
             Expression::Identifier(name) => match state.variables.get(name) {
                 Some(value) => Ok(*value),
                 None => Err(RuntimeError {
-                    message: format!("Variable does not exist: {}", name),
+                    message: format!("Variable does not exist: {name}"),
                     span: span.clone(),
                 }),
             },
