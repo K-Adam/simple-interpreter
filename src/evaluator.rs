@@ -52,7 +52,7 @@ impl Evaluator {
                 if state.variables.contains_key(name) {
                     return Err(RuntimeError {
                         message: format!("Variable {name} is already defined"),
-                        span: span.clone(),
+                        span: *span,
                     });
                 };
                 state.variables.insert(name.clone(), value);
@@ -62,7 +62,7 @@ impl Evaluator {
                 let value = self.evaluate_expression(state, expression)?;
                 let var_ref = state.variables.get_mut(name).ok_or_else(|| RuntimeError {
                     message: format!("Variable {name} is not defined"),
-                    span: span.clone(),
+                    span: *span,
                 })?;
                 *var_ref = value;
                 Ok(())
@@ -91,7 +91,7 @@ impl Evaluator {
             .get(&ast_node.node.name)
             .ok_or_else(|| RuntimeError {
                 message: format!("Function {} not found", ast_node.node.name),
-                span: ast_node.span.clone(),
+                span: ast_node.span,
             })?(self, state, ast_node)
     }
 
@@ -120,7 +120,7 @@ impl Evaluator {
                 Some(value) => Ok(*value),
                 None => Err(RuntimeError {
                     message: format!("Variable does not exist: {name}"),
-                    span: span.clone(),
+                    span: *span,
                 }),
             },
         }

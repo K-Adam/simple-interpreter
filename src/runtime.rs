@@ -16,7 +16,7 @@ pub fn function_input(
     if !function_call.arguments.is_empty() {
         return Err(RuntimeError {
             message: "Input function does not take any arguments".into(),
-            span: span.clone(),
+            span: *span,
         });
     };
 
@@ -28,12 +28,12 @@ pub fn function_input(
             Ok(num) => Ok(num),
             Err(err) => Err(RuntimeError {
                 message: format!("Error when parsing: {input}, {err:?}"),
-                span: span.clone(),
+                span: *span,
             }),
         },
         Err(err) => Err(RuntimeError {
             message: format!("Error when reading from console: {err:?}"),
-            span: span.clone(),
+            span: *span,
         }),
     }
 }
@@ -62,7 +62,7 @@ pub fn function_print(
         }
         _ => Err(RuntimeError {
             message: "Too many arguments for print".into(),
-            span: span.clone(),
+            span: *span,
         }),
     }
 }

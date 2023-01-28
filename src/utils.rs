@@ -1,4 +1,4 @@
-#[derive(PartialEq, Eq, Debug, Clone)]
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
 pub struct Span {
     pub start: usize,
     pub end: usize,
