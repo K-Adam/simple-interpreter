@@ -60,7 +60,7 @@ impl Evaluator {
             }
             Line::Reassignment(name, expression) => {
                 let value = self.evaluate_expression(state, expression)?;
-                let var_ref = state.variables.get_mut(name).ok_or(RuntimeError {
+                let var_ref = state.variables.get_mut(name).ok_or_else(|| RuntimeError {
                     message: format!("Variable {name} is not defined"),
                     span: span.clone(),
                 })?;
@@ -89,7 +89,7 @@ impl Evaluator {
         state
             .functions
             .get(&ast_node.node.name)
-            .ok_or(RuntimeError {
+            .ok_or_else(|| RuntimeError {
                 message: format!("Function {} not found", ast_node.node.name),
                 span: ast_node.span.clone(),
             })?(self, state, ast_node)

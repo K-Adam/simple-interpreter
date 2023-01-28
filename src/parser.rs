@@ -340,7 +340,7 @@ mod tests {
                     token,
                     span: Span { start: 0, end: 0 },
                 })
-                .ok_or(TokenizerError {
+                .ok_or_else(|| TokenizerError {
                     message: "Empty".into(),
                     span: Span { start: 0, end: 0 },
                 })
@@ -350,7 +350,7 @@ mod tests {
             let token = self
                 .tokens
                 .front()
-                .ok_or(TokenizerError {
+                .ok_or_else(|| TokenizerError {
                     message: "Empty".into(),
                     span: Span { start: 0, end: 0 },
                 })?
