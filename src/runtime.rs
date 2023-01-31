@@ -23,19 +23,17 @@ pub fn function_input(
     println!("Input: ");
 
     let mut input = String::new();
-    match io::stdin().read_line(&mut input) {
-        Ok(_) => match input.trim().parse::<i32>() {
-            Ok(num) => Ok(num),
-            Err(err) => Err(RuntimeError {
-                message: format!("Error when parsing: {input}, {err:?}"),
-                span: *span,
-            }),
-        },
-        Err(err) => Err(RuntimeError {
+    io::stdin()
+        .read_line(&mut input)
+        .map_err(|err| RuntimeError {
             message: format!("Error when reading from console: {err:?}"),
             span: *span,
-        }),
-    }
+        })?;
+
+    input.trim().parse::<i32>().map_err(|err| RuntimeError {
+        message: format!("Error when converting string to integer: {input}, {err:?}"),
+        span: *span,
+    })
 }
 
 pub fn function_print(
@@ -60,8 +58,8 @@ pub fn function_print(
             };
             Ok(0)
         }
-        _ => Err(RuntimeError {
-            message: "Too many arguments for print".into(),
+        n => Err(RuntimeError {
+            message: format!("Too many arguments for print. Expected 0 or 1, got {n}"),
             span: *span,
         }),
     }
