@@ -86,7 +86,7 @@ pub enum TokenizerRule {
 
 impl SimpleTokenizer<'_> {
     pub fn new(data: &str) -> SimpleTokenizer {
-        let rules = [
+        let rules = vec![
             TokenizerRule::Char('(', Token::OpeningParenthesis),
             TokenizerRule::Char(')', Token::ClosingParenthesis),
             TokenizerRule::Char('{', Token::OpeningCurlyBracket),
@@ -128,7 +128,7 @@ impl SimpleTokenizer<'_> {
             data,
             cursor: 0,
             next: None,
-            rules: Vec::from(rules),
+            rules,
             matches_keyword,
             terminated: false,
         }
