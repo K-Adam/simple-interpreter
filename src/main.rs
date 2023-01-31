@@ -12,9 +12,9 @@ mod runtime;
 mod utils;
 
 fn main() {
+    const DEFAULT_PATH: &str = "example.txt";
     let args: Vec<String> = env::args().collect();
-    let default_path: String = "example.txt".into();
-    let path = args.get(1).unwrap_or(&default_path);
+    let path = args.get(1).map(String::as_str).unwrap_or(DEFAULT_PATH);
 
     let content = match fs::read_to_string(path) {
         Ok(str) => str,
