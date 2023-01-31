@@ -295,7 +295,7 @@ impl<T: Tokenizer> Parser<T> {
         let mut left = self.parse_simple_expression()?;
 
         while let Token::Operator(operator) = self.tokenizer.peek()?.token {
-            let op = operator.clone();
+            let op = operator;
             let next_precedence = operator_precedence(&op);
             if next_precedence < precedence {
                 break;

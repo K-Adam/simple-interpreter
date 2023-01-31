@@ -95,6 +95,15 @@ impl Evaluator {
             })?(self, state, ast_node)
     }
 
+    fn evaluate_operator(&self, operator: Operator, left: i32, right: i32) -> i32 {
+        match operator {
+            Operator::Plus => left + right,
+            Operator::Minus => left - right,
+            Operator::Multiplication => left * right,
+            Operator::LessThan => (left < right) as i32,
+        }
+    }
+
     pub fn evaluate_expression(
         &self,
         state: &mut State,
@@ -109,12 +118,7 @@ impl Evaluator {
             Expression::BinaryOperator(left, op, right) => {
                 let left_value = self.evaluate_expression(state, left)?;
                 let right_value = self.evaluate_expression(state, right)?;
-                Ok(match op {
-                    Operator::Plus => left_value + right_value,
-                    Operator::Minus => left_value - right_value,
-                    Operator::Multiplication => left_value * right_value,
-                    Operator::LessThan => (left_value < right_value) as i32,
-                })
+                Ok(self.evaluate_operator(*op, left_value, right_value))
             }
             Expression::Identifier(name) => match state.variables.get(name) {
                 Some(value) => Ok(*value),

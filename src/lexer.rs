@@ -6,7 +6,7 @@ use substring::Substring;
 
 pub type TokenizerError = SpanError;
 
-#[derive(PartialEq, Eq, Debug, Clone)]
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
 pub enum Operator {
     Plus,
     Minus,
