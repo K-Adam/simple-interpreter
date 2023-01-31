@@ -120,13 +120,16 @@ impl Evaluator {
                 let right_value = self.evaluate_expression(state, right)?;
                 Ok(self.evaluate_operator(*op, left_value, right_value))
             }
-            Expression::Identifier(name) => match state.variables.get(name) {
-                Some(value) => Ok(*value),
-                None => Err(RuntimeError {
-                    message: format!("Variable does not exist: {name}"),
-                    span: *span,
-                }),
-            },
+            Expression::Identifier(name) => {
+                state
+                    .variables
+                    .get(name)
+                    .copied()
+                    .ok_or_else(|| RuntimeError {
+                        message: format!("Variable does not exist: {name}"),
+                        span: *span,
+                    })
+            }
         }
     }
 }
