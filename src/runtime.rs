@@ -26,12 +26,12 @@ pub fn function_input(
     io::stdin()
         .read_line(&mut input)
         .map_err(|err| RuntimeError {
-            message: format!("Error when reading from console: {err:?}"),
+            message: format!("Cannot read from the console: {err:?}"),
             span: *span,
         })?;
 
     input.trim().parse::<i32>().map_err(|err| RuntimeError {
-        message: format!("Error when converting string to integer: {input}, {err:?}"),
+        message: format!("Cannot convert string to integer: {input}, {err:?}"),
         span: *span,
     })
 }

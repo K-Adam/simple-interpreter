@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(PartialEq, Eq, Debug, Clone, Copy)]
 pub struct Span {
     pub start: usize,
@@ -36,7 +38,7 @@ fn line_info(text: &str, index: usize) -> (usize, usize, &str) {
 pub fn format_error(error: &SpanError, input: &str) -> String {
     let (line_number, char_number, line) = line_info(input, error.span.start);
     format!(
-        "Error: {}, on line {} char {}:\n{}",
+        "{}, on line {} char {}:\n{}",
         error.message, line_number, char_number, line
     )
 }
@@ -47,5 +49,21 @@ impl SpanError {
             message,
             span: Span { start, end },
         }
+    }
+}
+
+pub struct MainError {
+    message: String,
+}
+
+impl From<String> for MainError {
+    fn from(message: String) -> Self {
+        MainError { message }
+    }
+}
+
+impl fmt::Debug for MainError {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Display::fmt(&self.message, formatter)
     }
 }
